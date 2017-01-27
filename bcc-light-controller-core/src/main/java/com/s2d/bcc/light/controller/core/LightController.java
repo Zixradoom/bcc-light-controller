@@ -7,4 +7,5 @@ public interface LightController
   int getLightCount ();
   void set ( int lightIndex, boolean on );
   void execute ();
+  void close ();
 }
