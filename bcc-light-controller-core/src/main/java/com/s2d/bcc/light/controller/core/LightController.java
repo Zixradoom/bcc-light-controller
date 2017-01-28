@@ -1,11 +1,13 @@
 
 package com.s2d.bcc.light.controller.core;
 
+import java.util.List;
+
 public interface LightController
 {
   void initialize ();
-  int getLightCount ();
-  void set ( int lightIndex, boolean on );
+  List < Light > getLights ();
+  void set ( Light light, boolean on );
   void execute ();
   void close ();
 }
