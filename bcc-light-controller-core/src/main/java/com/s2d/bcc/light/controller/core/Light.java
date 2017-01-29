@@ -1,5 +1,11 @@
 package com.s2d.bcc.light.controller.core;
 
+/**
+ * A Light is one of possibly many devices controlled by the {@link LightController}.
+ * 
+ * @author Zixradoom
+ *
+ */
 public final class Light
 {
   private final long id;
@@ -11,11 +17,19 @@ public final class Light
     this.name = ( name == null ) ? "" : name;
   }
 
+  /**
+   * 
+   * @return the id assigned to this light by the {@link LightController}
+   */
   public long getId ()
   {
     return id;
   }
   
+  /**
+   * 
+   * @return the name assigned to this light by the {@link LightController}
+   */
   public String getName ()
   {
     return name;

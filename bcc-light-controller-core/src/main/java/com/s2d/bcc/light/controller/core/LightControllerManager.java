@@ -4,6 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
 
+/**
+ * Used to search the system for installed {@link LightControllerProvider}s
+ * 
+ * @author Zixradoom
+ *
+ */
 public final class LightControllerManager
 {
   private final Object lock = new Object ();
@@ -15,7 +21,11 @@ public final class LightControllerManager
     loader = ServiceLoader.load ( LightControllerProvider.class );
   }
   
-  public List < LightControllerProvider > gertProviders ()
+  /**
+   * 
+   * @return all installed {@link LightControllerProvider}s
+   */
+  public List < LightControllerProvider > getProviders ()
   {
     List < LightControllerProvider > temp = new ArrayList < LightControllerProvider > ();
     synchronized (lock)

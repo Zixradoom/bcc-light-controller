@@ -4,7 +4,7 @@ public abstract class LightControllerProvider
 {
   /**
    * 
-   * @return a LightController
+   * @return a LightController that is initialized.
    * @throws LightControllerInitializationException if the initialization fails
    */
   public abstract LightController createLightController ();
