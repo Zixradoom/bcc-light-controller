@@ -24,8 +24,9 @@ public interface LightController
    * Get the list of {@link Light}s that this controller controls.
    * Any method of this interface that requires a {@link Light}
    * as an argument must submit an instance of a light returned
-   * by this class. If an instance is passed that did not
-   * originate from this list will throw an exception.
+   * by this class. If an instance is passed to a method on this class
+   * that did not originate from this list, that method is required
+   * to throw an exception.
    * 
    * @return A list of lights this controller controls
    */
