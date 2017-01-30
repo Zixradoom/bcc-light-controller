@@ -33,7 +33,9 @@ public interface LightController
   List < Light > getLights ();
   
   /**
-   * Switch a light on or off in the driver.
+   * Switch a light on or off in the driver. The instance of {@link Light}
+   * that is passed to this method must originate from the list returned by
+   * {@link LightController#getLights}.
    * @param light the light to set on or off
    * @param on true is on false is off
    */
