@@ -2,11 +2,15 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
+apply plugin: 'war'
 
 targetCompatibility = 1.8
 sourceCompatibility = 1.8
 version = '0.1.0-SNAPSHOT'
 group = 'com.s2d'
+
+// to replace the JUL log manager with the log4j one
+//-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager
 
 task wrapper(type: Wrapper) {
   gradleVersion = '3.4.1'
@@ -16,9 +20,16 @@ repositories {
   mavenCentral()
 }
 
+configurations {
+  warApp
+}
+
 dependencies {
-  compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.24'
-  compile group: 'org.slf4j', name: 'slf4j-ext', version: '1.7.24'
+  providedCompile project(':bcc-light-controller-core')
+  providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+
+  providedCompile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.24'
+  providedCompile group: 'org.slf4j', name: 'slf4j-ext', version: '1.7.24'
 }
 
 javadoc.options.links("http://docs.oracle.com/javase/8/docs/api/")
@@ -36,4 +47,5 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 artifacts {
   archives sourcesJar
   archives javadocJar
+  warApp war
 }

@@ -3,6 +3,8 @@ package com.s2d.bcc.light.controller.core;
 
 import java.util.List;
 
+import com.s2d.bcc.light.controller.core.spi.LightControllerProvider;
+
 /**
  * This interface should be implemented by the class that
  * implements the driver that talks to the low level control
@@ -45,6 +47,12 @@ public interface LightController
    * Execute light updates cached in the controller
    */
   void execute ();
+  
+  /**
+   * 
+   * @return the {@link LightControllerProvider} that provides this instance.
+   */
+  LightControllerProvider getProvider ();
   
   /**
    * Close this controller and release any underlying system

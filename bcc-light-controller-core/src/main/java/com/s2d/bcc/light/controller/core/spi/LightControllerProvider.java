@@ -1,4 +1,7 @@
-package com.s2d.bcc.light.controller.core;
+package com.s2d.bcc.light.controller.core.spi;
+
+import com.s2d.bcc.light.controller.core.LightController;
+import com.s2d.bcc.light.controller.core.LightControllerInitializationException;
 
 public abstract class LightControllerProvider
 {

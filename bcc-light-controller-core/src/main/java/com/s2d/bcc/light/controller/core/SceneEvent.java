@@ -34,8 +34,8 @@ public final class SceneEvent
    */
   public SceneEvent ( Map < Light, Boolean > lightMap, long time, TimeUnit unit )
   {
-    time = time;
-    unit = Objects.requireNonNull ( unit );
+    this.time = time;
+    this.unit = Objects.requireNonNull ( unit );
     Map < Light, Boolean > temp = new HashMap < Light, Boolean > ();
     for ( Entry < Light, Boolean > entry : lightMap.entrySet () )
     {

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
 
+import com.s2d.bcc.light.controller.core.spi.LightControllerProvider;
+
 /**
  * Used to search the system for installed {@link LightControllerProvider}s
  * 

@@ -48,6 +48,11 @@ public final class SceneController
     return es.submit ( new SceneUpdate ( scene, ses, lightController ) );
   }
   
+  public LightController getLightController ()
+  {
+    return lightController;
+  }
+  
   /**
    * A {@link SceneUpdate} executes the list of {@link SceneEvent}s in
    * order until there are no more in the list. This process
@@ -97,6 +102,8 @@ public final class SceneController
           if ( !( e.getCause () instanceof InterruptedException ) )
             throw e;
           else
+            // Interruption is allowed
+            LOGGER.catching ( Level.DEBUG, e );
             return null;
         }
       }
