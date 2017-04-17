@@ -1,7 +1,10 @@
 package com.s2d.bcc.light.controller.core;
 
+import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -24,15 +27,12 @@ public final class SceneController
 {
   private static final XLogger LOGGER = XLoggerFactory.getXLogger ( SceneController.class );
   
-  private LightController lightController;
   private ExecutorService es;
   private ScheduledExecutorService ses;
   
-  public SceneController ( LightController lightController,
-      ExecutorService executorService,
+  public SceneController ( ExecutorService executorService,
       ScheduledExecutorService scheduledExecutorService )
   {
-    this.lightController = lightController;
     this.es = executorService;
     this.ses = scheduledExecutorService;
   }
@@ -45,12 +45,7 @@ public final class SceneController
    */
   public Future < Void > executeSceneUpdate ( Scene scene )
   {
-    return es.submit ( new SceneUpdate ( scene, ses, lightController ) );
-  }
-  
-  public LightController getLightController ()
-  {
-    return lightController;
+    return es.submit ( new SceneUpdate ( scene, ses ) );
   }
   
   /**
@@ -65,14 +60,11 @@ public final class SceneController
   {
     private Scene scene;
     private ScheduledExecutorService ses;
-    private LightController lightController;
     
-    public SceneUpdate ( Scene scene, ScheduledExecutorService ses,
-        LightController lightController )
+    public SceneUpdate ( Scene scene, ScheduledExecutorService ses )
     {
       this.scene = scene;
       this.ses = ses;
-      this.lightController = lightController;
     }
 
     @Override
@@ -85,7 +77,7 @@ public final class SceneController
           LOGGER.trace ( "interrupted" );
           return null;
         }
-        ScheduledFuture < ? > sf = ses.schedule ( new LightUpdate ( lightController,
+        ScheduledFuture < ? > sf = ses.schedule ( new LightUpdate (
             se.getLightMap () ), se.getDelay (), se.getDelayTimeUnit () );
         try
         {
@@ -120,23 +112,26 @@ public final class SceneController
    */
   private static final class LightUpdate implements Runnable
   {
-    private LightController lc;
     private Map < Light, Boolean > lightMap;
     
-    private LightUpdate ( LightController lc, Map < Light, Boolean > lightMap )
+    private LightUpdate ( Map < Light, Boolean > lightMap )
     {
-      this.lc = lc;
       this.lightMap = lightMap;
     }
 
     @Override
     public void run ()
     {
+      Set < LightController > lcs = Collections.newSetFromMap ( new IdentityHashMap < LightController, Boolean > () );
       // set the scene in the driver
       for ( Entry < Light, Boolean > entry : lightMap.entrySet () )
+      {
+        LightController lc = entry.getKey ().getLightController (); 
         lc.set ( entry.getKey (), entry.getValue ().booleanValue () );
+        lcs.add ( lc );
+      }
       // instruct the driver to execute the scene
-      lc.execute ();
+      lcs.forEach ( ( lc ) -> lc.execute () );
     }
   }
 }

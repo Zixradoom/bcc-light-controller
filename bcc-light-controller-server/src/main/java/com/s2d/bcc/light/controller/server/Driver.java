@@ -66,17 +66,18 @@ public final class Driver implements Runnable, Server
     // check for an installed light controller
     LightControllerManager lcm = new LightControllerManager ();
     List < LightControllerProvider > providers = lcm.getProviders ();
+    // TODO support multiple light controllers
     if ( providers.isEmpty () || providers.size () > 1 )
       throw LOGGER.throwing ( new IllegalStateException ( "There must be exactly 1 LightControllerProvider installed at a time" ) );
     LightControllerProvider lcp = providers.get ( 0 );
-    LightController lc = lcp.createLightController ();
+    LightController lc = lcp.openLightController ();
     
     // executors
     ExecutorService es = Executors.newSingleThreadExecutor ();
     ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor ();
     
     // create the scene controller
-    SceneController sceneController = new SceneController ( lc, es, ses );
+    SceneController sceneController = new SceneController ( es, ses );
     
     // get database
     Path databaseDir = Paths.get ( "../database/lc" ).toRealPath ();

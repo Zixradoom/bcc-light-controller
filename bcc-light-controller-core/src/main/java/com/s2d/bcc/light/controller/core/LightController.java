@@ -16,13 +16,6 @@ import com.s2d.bcc.light.controller.core.spi.LightControllerProvider;
 public interface LightController
 {
   /**
-   * Acquire the system resource required by this 
-   * Light Controller
-   * @throws LightControllerInitializationException
-   */
-  void initialize ();
-  
-  /**
    * Get the list of {@link Light}s that this controller controls.
    * Any method of this interface that requires a {@link Light}
    * as an argument must submit an instance of a light returned
@@ -53,6 +46,12 @@ public interface LightController
    * @return the {@link LightControllerProvider} that provides this instance.
    */
   LightControllerProvider getProvider ();
+  
+  /**
+   * 
+   * @return the id of this light controller
+   */
+  long getId ();
   
   /**
    * Close this controller and release any underlying system

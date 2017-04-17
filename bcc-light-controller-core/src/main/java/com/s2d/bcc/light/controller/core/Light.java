@@ -1,5 +1,7 @@
 package com.s2d.bcc.light.controller.core;
 
+import java.util.Objects;
+
 /**
  * A Light is one of possibly many devices controlled by the {@link LightController}.
  * 
@@ -8,11 +10,13 @@ package com.s2d.bcc.light.controller.core;
  */
 public final class Light
 {
+  private final LightController lightController;
   private final long id;
   private final String name;
   
-  private Light ( long id, String name )
+  public Light ( LightController lightController, long id, String name )
   {
+    this.lightController = Objects.requireNonNull ( lightController );
     this.id = id;
     this.name = ( name == null ) ? "" : name;
   }
@@ -35,6 +39,15 @@ public final class Light
     return name;
   }
 
+  /**
+   * 
+   * @return the light controller this light belongs too.
+   */
+  public LightController getLightController ()
+  {
+    return lightController;
+  }
+  
   @Override
   public int hashCode ()
   {
