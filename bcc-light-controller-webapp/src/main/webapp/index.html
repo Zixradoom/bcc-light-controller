@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" ng-app="bccLightController">
   <head>
-     <meta charset="UTF-8">
-     <script src="lib/angular-v1.6.2.min.js"></script> 
+    <meta charset="utf-8">
+    <title>BCC Light Controller</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="assets/libs/angular.min.v1.6.2.js"></script>
+    <script src="assets/libs/angular-resource.min.v1.6.2.js"></script>
+    <script src="assets/libs/angular-route.min.v1.6.2.js"></script>
+    <script src="assets/libs/angular_1_router.js"></script>
+    <script src="app/app.module.js"></script>
+    <script src="app/app.routes.js"></script>
+    <script src="app/shared/light/light.module.js"></script>
+    <script src="app/shared/light/light.service.js"></script>
+    <script src="app/components/light-list/light-list.module.js"></script>
+    <script src="app/components/light-list/light-list.component.js"></script>
+    <script src="app/components/light-detail/light-detail.module.js"></script>
+    <script src="app/components/light-detail/light-detail.component.js"></script>
   </head>
   <body>
-    <h1>Hello World!!</h1>
+    <!--<div ng-view></div>-->
+    <bcc-light-controller></bcc-light-controller>
   </body>
-</html>
+<html>

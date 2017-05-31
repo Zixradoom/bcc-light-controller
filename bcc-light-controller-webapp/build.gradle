@@ -25,6 +25,9 @@ configurations {
 }
 
 dependencies {
+  compile group: 'javax.json', name: 'javax.json-api', version: '1.1'
+  runtime group: 'org.glassfish', name: 'javax.json', version: '1.1'
+
   providedCompile project(':bcc-light-controller-core')
   providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
 

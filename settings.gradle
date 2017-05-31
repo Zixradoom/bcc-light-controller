@@ -1,3 +1,4 @@
 include 'bcc-light-controller-core'
 include 'bcc-light-controller-server'
 include 'bcc-light-controller-webapp'
+include 'bcc-light-controller-test-driver'

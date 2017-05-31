@@ -1,0 +1,9 @@
+
+<ul class="lights">
+  <li ng-repeat="light in $ctrl.lights" class="thumbnail">
+    <a ng-link="['LightDetail', {lightId: light.id}]" class="thumb">
+      <img ng-src="{{light.imageUrl}}" alt="{{light.name}}" />
+    </a>
+    <a ng-link="['LightDetail', {lightId: light.id}]">{{light.name}}</a>
+  </li>
+</ul>

@@ -4,6 +4,17 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
          http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+  
+  <servlet>
+    <servlet-name>IndividualLightState</servlet-name>
+    <servlet-class>com.s2d.bcc.light.controller.webapp.IndividualLightState</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>IndividualLightState</servlet-name>
+    <url-pattern>srv/individualLightState</url-pattern>
+  </servlet-mapping>
+  
   <!--
   <servlet>
     <servlet-name>ServerShudownControl</servlet-name>

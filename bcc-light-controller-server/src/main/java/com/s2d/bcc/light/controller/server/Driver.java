@@ -22,7 +22,6 @@ import org.slf4j.ext.XLogger;
 import org.slf4j.ext.XLogger.Level;
 import org.slf4j.ext.XLoggerFactory;
 
-import com.s2d.bcc.light.controller.core.LightController;
 import com.s2d.bcc.light.controller.core.LightControllerManager;
 import com.s2d.bcc.light.controller.core.SceneController;
 import com.s2d.bcc.light.controller.core.Server;
@@ -57,7 +56,7 @@ public final class Driver implements Runnable, Server
     // setup
     // check for installed war files
     // we should be executing from the <root>/bin/ directory
-    Path webappDir = Paths.get ( "../webapp" ).toRealPath ();
+    Path webappDir = Paths.get ( "../webapp" ).toAbsolutePath ().normalize ();
     LOGGER.info ( "searching for insalled war file in: [{}]", webappDir );
     List < Path > warFiles = getInstalledWarFiles ( webappDir );
     if ( warFiles.isEmpty () )
@@ -66,12 +65,9 @@ public final class Driver implements Runnable, Server
     // check for an installed light controller
     LightControllerManager lcm = new LightControllerManager ();
     List < LightControllerProvider > providers = lcm.getProviders ();
-    // TODO support multiple light controllers
-    if ( providers.isEmpty () || providers.size () > 1 )
-      throw LOGGER.throwing ( new IllegalStateException ( "There must be exactly 1 LightControllerProvider installed at a time" ) );
-    LightControllerProvider lcp = providers.get ( 0 );
-    LightController lc = lcp.openLightController ();
-    
+    if ( providers.isEmpty () )
+      throw LOGGER.throwing ( new IllegalStateException ( "There are no installed LightControllerProviders" ) );
+
     // executors
     ExecutorService es = Executors.newSingleThreadExecutor ();
     ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor ();
@@ -80,7 +76,7 @@ public final class Driver implements Runnable, Server
     SceneController sceneController = new SceneController ( es, ses );
     
     // get database
-    Path databaseDir = Paths.get ( "../database/lc" ).toRealPath ();
+    Path databaseDir = Paths.get ( "../database/lc" ).toAbsolutePath ().normalize ();
     LOGGER.info ( "setting up database: [{}]", databaseDir );
     EmbeddedDataSource ds = createDataSource ( databaseDir );
     
@@ -99,6 +95,7 @@ public final class Driver implements Runnable, Server
       wap.setWar ( warFile.toString () );
       wap.setAttribute ( Server.LIGHT_CONTROLLER_SERVER, this );
       wap.setAttribute ( Server.LIGHT_CONTROLLER_SCENE_CONTROLLER, sceneController );
+      wap.setAttribute ( Server.LIGHT_CONTROLLER_MANAGER, lcm );
       LOGGER.info ( wap.getContextPath () );
       waps.add ( wap );
     }
@@ -128,9 +125,6 @@ public final class Driver implements Runnable, Server
     es.shutdown ();
     ses.shutdown ();
     
-    // close the light controller
-    lc.close ();
-    
     // close the database
     ds.setShutdownDatabase ( "shutdown" );
     ds.getConnection ();
@@ -138,6 +132,7 @@ public final class Driver implements Runnable, Server
 
   private EmbeddedDataSource createDataSource ( Path databaseDir )
   {
+    LOGGER.info ( "using database [{}]", databaseDir );
     EmbeddedDataSource eds = new EmbeddedDataSource ();
     eds.setDatabaseName ( databaseDir.toString () );
     eds.setCreateDatabase ( "create" );
@@ -152,7 +147,7 @@ public final class Driver implements Runnable, Server
   
   private static List < Path > getInstalledWarFiles ( Path dir ) throws IOException
   {
-    if ( Files.exists ( dir ) )
+    if ( !Files.exists ( dir ) )
       throw LOGGER.throwing ( new IllegalArgumentException ( String.format ( "dir does not exist: [%s]", dir ) ) );
     
     if ( !Files.isDirectory ( dir ) )

@@ -2,60 +2,33 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
-apply plugin: 'application'
 
 targetCompatibility = 1.8
 sourceCompatibility = 1.8
 version = '0.1.0-SNAPSHOT'
 group = 'com.s2d'
 
-mainClassName = 'com.s2d.bcc.light.controller.server.Driver'
-
-applicationDefaultJvmArgs = [
 // to replace the JUL log manager with the log4j one
-  "-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager"
-]
+//-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '3.4.1'
+  gradleVersion = '3.0'
 }
 
 repositories {
   mavenCentral()
 }
 
-configurations {
-  webContainer
-}
-
 dependencies {
   compile project(':bcc-light-controller-core')
-  compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.2.v20170220'
-  compile group: 'org.eclipse.jetty', name: 'jetty-webapp', version: '9.4.2.v20170220'
-  compile group: 'org.apache.derby', name: 'derby', version: '10.13.1.1'
-
-  webContainer project(path: ':bcc-light-controller-webapp', configuration: 'warApp')
-
+  
   compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.24'
   compile group: 'org.slf4j', name: 'slf4j-ext', version: '1.7.24'
   compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.4'
   compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.4'
-  
-  runtime project(':bcc-light-controller-test-driver')
-  
-  runtime group: 'org.apache.logging.log4j', name: 'log4j-jul', version: '2.4'
+  //runtime group: 'org.apache.logging.log4j', name: 'log4j-jul', version: '2.4'
   runtime group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.4'
   //testCompile group: 'junit', name: 'junit', version: '4.+'
-}
-
-distributions {
-  main {
-    contents {
-      into ('webapp') {
-        from { project.configurations.webContainer }
-      }
-    }
-  }
 }
 
 javadoc.options.links("http://docs.oracle.com/javase/8/docs/api/")

@@ -1,5 +1,6 @@
 package com.s2d.bcc.light.controller.core.spi;
 
+import java.util.Collection;
 import java.util.UUID;
 
 import com.s2d.bcc.light.controller.core.LightController;
@@ -14,6 +15,10 @@ public abstract class LightControllerProvider
    */
   public abstract LightController openLightController ();
   
+  public abstract LightController openLightController ( int id );
+  
+  public abstract Collection < Integer > getLightControllerIds ();
+
   /**
    * 
    * @return the name of this provider
