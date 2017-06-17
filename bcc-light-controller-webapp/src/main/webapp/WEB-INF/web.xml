@@ -15,6 +15,16 @@
     <url-pattern>srv/individualLightState</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>LightData</servlet-name>
+    <servlet-class>com.s2d.bcc.light.controller.webapp.LightData</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>LightData</servlet-name>
+    <url-pattern>srv/light/*</url-pattern>
+  </servlet-mapping>
+  
   <!--
   <servlet>
     <servlet-name>ServerShudownControl</servlet-name>

@@ -18,13 +18,11 @@ public final class FrameHandler
 {
   private static final XLogger LOGGER = XLoggerFactory.getXLogger ( FrameHandler.class );
 
-  private LightController lc;
   private JFrame frame;
   private LightPane lightPane;
 
   public FrameHandler ( LightController lc )
   {
-    this.lc = lc;
     try
     {
       SwingUtilities.invokeAndWait ( new Runnable () {

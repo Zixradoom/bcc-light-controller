@@ -29,9 +29,9 @@ public final class TestLightControllerProvider extends LightControllerProvider
   }
   
   @Override
-  public LightController openLightController ( int id )
+  public LightController openLightController ( long id )
   {
-    if ( !getLightControllerIds ().contains ( Integer.valueOf ( id ) ) )
+    if ( !getLightControllerIds ().contains ( Long.valueOf ( id ) ) )
       throw LOGGER.throwing ( new IllegalArgumentException ( "Unsupported Controller ID ["+id+"]" ) );
     return openLightController ();
   }

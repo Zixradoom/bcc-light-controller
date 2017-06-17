@@ -175,6 +175,8 @@ public class TestLightController implements LightController
       {
         lights.add ( new Light ( lc, Integer.valueOf ( str ).intValue (), properties.getProperty ( str ) ) );
       }
+      
+      Collections.sort ( lights, ( l1, l2 ) -> Long.compare ( l1.getId (), l2.getId () ) );
     }
     catch ( IOException e )
     {

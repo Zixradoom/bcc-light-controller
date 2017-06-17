@@ -15,7 +15,7 @@ public abstract class LightControllerProvider
    */
   public abstract LightController openLightController ();
   
-  public abstract LightController openLightController ( int id );
+  public abstract LightController openLightController ( long id );
   
   public abstract Collection < Integer > getLightControllerIds ();
 

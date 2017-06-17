@@ -96,6 +96,7 @@ public final class Driver implements Runnable, Server
       wap.setAttribute ( Server.LIGHT_CONTROLLER_SERVER, this );
       wap.setAttribute ( Server.LIGHT_CONTROLLER_SCENE_CONTROLLER, sceneController );
       wap.setAttribute ( Server.LIGHT_CONTROLLER_MANAGER, lcm );
+      wap.setAttribute ( Server.DATA_SOURCE, ds );
       LOGGER.info ( wap.getContextPath () );
       waps.add ( wap );
     }

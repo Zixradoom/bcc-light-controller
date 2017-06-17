@@ -48,7 +48,7 @@ public class IndividualLightState extends HttpServlet
     int lightId = obj.getInt ( "lightId" );
     boolean state = obj.getBoolean ( "state" );
     
-    LightControllerManager lcm = ( LightControllerManager ) getServletContext ().getAttribute ( Server.LIGHT_CONTROLLER_MANAGER );
+    LightControllerManager lcm = getLightControllerManager ();
     Optional < LightControllerProvider > lcpOption = lcm.getProviders ().stream ()
       .filter ( provider -> provider.getUUID ().equals ( providerId ) )
       .findAny ();
@@ -77,8 +77,14 @@ public class IndividualLightState extends HttpServlet
     }
     Light l = lightOption.get ();
     SceneController sc = ( SceneController ) getServletContext ().getAttribute ( Server.LIGHT_CONTROLLER_SCENE_CONTROLLER );
-    Scene temp = new Scene ( Arrays.asList ( new SceneEvent ( Collections.singletonMap ( l, state ), 0, TimeUnit.MILLISECONDS ) ) );
+    Scene temp = new Scene ( Arrays.asList ( new SceneEvent (
+        Collections.singletonMap ( l, Boolean.valueOf ( state ) ), 0, TimeUnit.MILLISECONDS ) ) );
     sc.executeSceneUpdate ( temp );
     resp.setStatus ( HttpServletResponse.SC_OK );
+  }
+  
+  private LightControllerManager getLightControllerManager ()
+  {
+    return ( LightControllerManager ) getServletContext ().getAttribute ( Server.LIGHT_CONTROLLER_MANAGER );
   }
 }
